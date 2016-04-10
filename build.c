@@ -24,7 +24,6 @@ int main(int argc, char **argv)
 		return help();
 
 
-
 	// get nunber of keys and probes
 	int k = argv[1];
 	int p = argv[2];
@@ -41,6 +40,23 @@ int main(int argc, char **argv)
 	}
 
 
-	// MAKE SHIT HAPPEN
-	//
+
+	// get dimensions (length and width) of 2D array
+	int length_tree = sizeof(fanout_levels) / sizeof(int);
+	int width_tree = fanout_levels[0];
+
+	int i;
+	for (foo = 1; foo < length_tree; foo++ ) {
+		width_tree = width_tree * fanout_levels[i];
+	}
+
+
+	// initialize 2D array for search tree
+	int tree[length_tree][width_tree];
+
+
+
+
+
+	return 0;
 }
