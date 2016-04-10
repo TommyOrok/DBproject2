@@ -1,0 +1,102 @@
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+
+typedef struct {
+	size_t index;
+	uint32_t num[625];
+} rand32_t;
+
+rand32_t *rand32_init(uint32_t x)
+{
+	rand32_t *s = malloc(sizeof(rand32_t));
+	uint32_t *n = s->num;
+	size_t i = 1;
+	n[0] = x;
+	do {
+		x = 0x6c078965 * (x ^ (x >> 30));
+		n[i] = x;
+	} while (++i != 624);
+	s->index = i;
+	return s;
+}
+
+uint32_t rand32_next(rand32_t *s)
+{
+	uint32_t x, *n = s->num;
+	size_t i = s->index;
+	if (i == 624) {
+		i = 0;
+		do {
+			x = (n[i] & 0x80000000) + (n[i + 1] & 0x7fffffff);
+			n[i] = (n[i + 397] ^ (x >> 1)) ^ (0x9908b0df & -(x & 1));
+		} while (++i != 227);
+		n[624] = n[0];
+		do {
+			x = (n[i] & 0x80000000) + (n[i + 1] & 0x7fffffff);
+			n[i] = (n[i - 227] ^ (x >> 1)) ^ (0x9908b0df & -(x & 1));
+		} while (++i != 624);
+		i = 0;
+	}
+	x = n[i];
+	x ^= (x >> 11);
+	x ^= (x <<  7) & 0x9d2c5680;
+	x ^= (x << 15) & 0xefc60000;
+	x ^= (x >> 18);
+	s->index = i + 1;
+	return x;
+}
+
+int int32_cmp(const void *x, const void *y)
+{
+	int32_t a = * (const int*) x;
+	int32_t b = * (const int*) y;
+	return a < b ? -1 : a > b ? 1 : 0;
+}
+
+int32_t *generate(size_t n, rand32_t *gen)
+{
+	size_t i;
+	int32_t *a = malloc(n * 4);
+	for (i = 0 ; i != n ; ++i)
+		a[i] = rand32_next(gen);
+	return a;
+}
+
+size_t compact(int32_t *a, size_t n)
+{
+	size_t i, j;
+	int32_t x = a[0];
+	for (i = j = 1 ; i != n ; ++i) {
+		int32_t y = a[i];
+		if (x != y) a[j++] = x = y;
+	}
+	return j;
+}
+
+int32_t *generate_sorted_unique(size_t n, rand32_t *gen)
+{
+	size_t m = n + 10;
+	int32_t *a = NULL;
+	do {
+		free(a);
+		m *= 1.1;
+		a = generate(m, gen);
+		qsort(a, m, 4, int32_cmp);
+	} while (compact(a, m) < n);
+	return a;
+}
+
+int main(int argc, char **argv)
+{
+	rand32_t *gen = rand32_init(time(NULL));
+	size_t i, n = 20;
+	int32_t *a = generate_sorted_unique(n, gen);
+	for (i = 0 ; i != n ; ++i)
+		printf("%d\n", a[i]);
+	free(a);
+	free(gen);
+	return EXIT_SUCCESS;
+}
