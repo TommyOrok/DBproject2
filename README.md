@@ -4,10 +4,10 @@
 Background
 --------------------------
 
-Database System Implementation (COMS 4112)
-Professor Kenneth A. Ross
-Columbia University
-Spring 2016
+Database System Implementation (COMS 4112)  
+Professor Kenneth A. Ross  
+Columbia University  
+Spring 2016  
 
     Uzo Amuzie    -   Co-Project Lead
     Tommy Orok    -   Co-Project Lead
