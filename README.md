@@ -1,7 +1,7 @@
 # DBproject2
 
 --------------------------
-Background
+Project Info
 --------------------------
 
 Database System Implementation (COMS 4112)  
@@ -11,6 +11,8 @@ Spring 2016
 
     Uzo Amuzie    -   Co-Project Lead
     Tommy Orok    -   Co-Project Lead
+
+Project specs located in "project2.pdf"
 
 
 --------------------------
