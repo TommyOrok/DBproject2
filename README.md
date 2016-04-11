@@ -18,7 +18,7 @@ Running the Program
 --------------------------
 
 $ make  
-$ ./build "<K> <P> <int> ..."
+$ ./build \<K\> \<P\> \<int\> ...
 
 It's that easy!
 
