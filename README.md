@@ -17,7 +17,7 @@ Spring 2016
 Running the Program
 --------------------------
 
-$ make
+$ make  
 $ ./build <K> <P> <int> ...
 
 It's that easy!
