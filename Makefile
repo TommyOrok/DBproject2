@@ -36,7 +36,7 @@ build.o: build.c
 
 .PHONY: clean
 clean:
-	rm -f *.o a.out core main p2random p2randomv2 random
+	rm -f *.o a.out core main p2random p2randomv2 random build alt
 
 .PHONY: all
 all: clean main
